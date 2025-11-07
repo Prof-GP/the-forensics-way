@@ -1,0 +1,88 @@
+---
+// src/pages/about.astro
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="About | My Astro Blog" description="Learn more about our blog">
+  <div class="container">
+    <div class="about-header">
+      <h1>About</h1>
+    </div>
+    
+    <div class="about-content">
+      <p>
+        Welcome to My Astro Blog, a static site built with Astro. This blog showcases the power and flexibility of the Astro static site generator.
+      </p>
+      
+      <h2>Our Mission</h2>
+      <p>
+        We created this blog to share our knowledge and experiences with the web development community. Our goal is to provide valuable insights, tutorials, and updates on the latest technologies and best practices.
+      </p>
+      
+      <h2>Why Astro?</h2>
+      <p>
+        Astro is an incredible static site generator that allows us to build lightning-fast websites with modern development tools. Some reasons we love Astro:
+      </p>
+      
+      <ul>
+        <li>Zero JavaScript by default (it ships no JS by default)</li>
+        <li>Island Architecture for selective hydration when needed</li>
+        <li>Supports multiple UI frameworks (React, Vue, Svelte, etc.)</li>
+        <li>Built-in Markdown and MDX support</li>
+        <li>Optimized asset handling</li>
+        <li>Excellent developer experience</li>
+      </ul>
+      
+      <h2>Contact Us</h2>
+      <p>
+        Have questions or suggestions? Feel free to reach out to us at <a href="mailto:hello@example.com">hello@example.com</a>.
+      </p>
+    </div>
+  </div>
+</MainLayout>
+
+<style>
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .about-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .about-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .about-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+  }
+  
+  .about-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+  
+  .about-content p {
+    margin-bottom: 1.2rem;
+  }
+  
+  .about-content ul {
+    margin-bottom: 1.2rem;
+    padding-left: 1.5rem;
+  }
+  
+  .about-content li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .about-content a {
+    color: #0077cc;
+    text-decoration: underline;
+  }
+</style>

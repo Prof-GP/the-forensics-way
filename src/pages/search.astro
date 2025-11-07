@@ -1,0 +1,361 @@
+---
+// src/pages/search.astro or src/pages/search/index.astro
+// Real search functionality for blogs, tags, etc.
+
+import Layout from '../layouts/MainLayout.astro';
+
+// Import all blog posts and data needed for search
+// This is using Astro's content collections - adjust paths as needed for your project
+const allPosts = await Astro.glob('../content/blog/*.{md,mdx}');
+const allTags = [...new Set(allPosts.flatMap(post => post.frontmatter.tags || []))];
+
+// Server-side attempt to get search query (may not work due to SSR limitations)
+const requestUrl = Astro.request.url;
+const url = new URL(requestUrl);
+const serverSearchQuery = url.searchParams.get('q') || '';
+
+// Process content for search indexing (on server side)
+const searchableContent = allPosts.map(post => {
+  // Add null checks for content and frontmatter properties
+  const content = post.content || '';
+  const excerpt = post.frontmatter.excerpt || 
+                 (content ? content.slice(0, 150) + '...' : 'No excerpt available');
+  
+  return {
+    id: post.frontmatter.slug || post.file.split('/').pop().split('.')[0],
+    title: post.frontmatter.title || 'Untitled Post',
+    excerpt: excerpt,
+    content: content,
+    url: `/blog/${post.frontmatter.slug || post.file.split('/').pop().split('.')[0]}`,
+    date: post.frontmatter.date,
+    tags: post.frontmatter.tags || [],
+    type: 'blog'
+  };
+});
+
+// Also add tag pages to searchable content
+const tagPages = allTags.map(tag => {
+  return {
+    id: `tag-${tag}`,
+    title: `Tag: ${tag}`,
+    excerpt: `View all posts tagged with ${tag}`,
+    content: `Posts tagged with ${tag}`,
+    url: `/tags/${tag}`,
+    type: 'tag'
+  };
+});
+
+// Combine all searchable content
+const allSearchableContent = [...searchableContent, ...tagPages];
+
+// We'll pass this data to the client-side for searching
+const serializedSearchData = JSON.stringify(allSearchableContent);
+---
+
+<Layout title="Search">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Search Our Blog</h1>
+    
+    <div class="mb-8">
+      <!-- Search form with client-side handling -->
+      <form 
+        id="searchForm" 
+        onsubmit="event.preventDefault(); window.location.href = '/search?q=' + encodeURIComponent(document.getElementById('searchInput').value);"
+        class="flex gap-2"
+      >
+        <input 
+          id="searchInput"
+          type="search" 
+          name="q" 
+          placeholder="Search blogs, tags, and more..."
+          class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+        <button 
+          type="submit" 
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Search
+        </button>
+      </form>
+    </div>
+
+    <!-- Search filters -->
+    <div class="mb-6 flex flex-wrap gap-2" id="filterContainer">
+      <span class="font-medium text-gray-700 mr-2">Filter by:</span>
+      <!-- Filters will be populated by JS -->
+    </div>
+
+    <!-- Search results container - will be populated by JavaScript -->
+    <div id="searchResults">
+      <div class="text-center py-12" id="initialMessage">
+        <h2 class="text-xl font-medium mb-2">Enter a search term above</h2>
+        <p class="text-gray-600">Search across blog posts, tags, and more</p>
+      </div>
+      <div class="hidden py-12 text-center" id="loadingMessage">
+        <h2 class="text-xl font-medium mb-2">Searching...</h2>
+        <p class="text-gray-600">Looking for relevant content</p>
+      </div>
+    </div>
+    
+    <!-- Pagination controls -->
+    <div id="paginationControls" class="mt-8 flex justify-center hidden">
+      <div class="flex gap-2">
+        <button id="prevPageBtn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+          Previous
+        </button>
+        <span id="paginationInfo" class="px-4 py-2">Page 1 of 1</span>
+        <button id="nextPageBtn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+          Next
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script define:vars={{ serializedSearchData }}>
+    // Parse the search data provided from the server
+    const allSearchableContent = JSON.parse(serializedSearchData);
+    
+    // Search configuration
+    const RESULTS_PER_PAGE = 10;
+    let currentPage = 1;
+    let activeFilters = new Set();
+    let currentResults = [];
+    let currentQuery = '';
+    
+    // Simple search function that matches keywords against content
+    function performSearch(query, filters = []) {
+      const searchTerms = query.toLowerCase().split(' ').filter(term => term.length > 0);
+      
+      if (searchTerms.length === 0) return [];
+      
+      return allSearchableContent.filter(item => {
+        // Filter by content type if filters are active
+        if (filters.length > 0 && !filters.includes(item.type)) {
+          return false;
+        }
+        
+        // Check if this item matches all search terms
+        const searchableText = `${item.title || ''} ${item.excerpt || ''} ${item.content || ''} ${(item.tags || []).join(' ')}`.toLowerCase();
+        
+        return searchTerms.every(term => searchableText.includes(term));
+      }).sort((a, b) => {
+        // Sort by relevance - title matches are prioritized
+        const aTitle = (a.title || '').toLowerCase();
+        const bTitle = (b.title || '').toLowerCase();
+        
+        // Check if search terms appear in title
+        const aTitleMatches = searchTerms.filter(term => aTitle.includes(term)).length;
+        const bTitleMatches = searchTerms.filter(term => bTitle.includes(term)).length;
+        
+        if (aTitleMatches !== bTitleMatches) {
+          return bTitleMatches - aTitleMatches;
+        }
+        
+        // Then sort by date (if available)
+        if (a.date && b.date) {
+          return new Date(b.date) - new Date(a.date);
+        }
+        
+        return 0;
+      });
+    }
+    
+    // Format search results as HTML
+    function formatSearchResults(results, query, page = 1) {
+      if (results.length === 0) {
+        return `
+          <div class="text-center py-12">
+            <h2 class="text-xl font-medium mb-2">No results found</h2>
+            <p class="text-gray-600 mb-6">Try different keywords or check your spelling</p>
+          </div>
+        `;
+      }
+      
+      // Calculate pagination
+      const startIndex = (page - 1) * RESULTS_PER_PAGE;
+      const endIndex = startIndex + RESULTS_PER_PAGE;
+      const paginatedResults = results.slice(startIndex, endIndex);
+      
+      // Generate HTML for results
+      let html = `
+        <p class="mb-4 text-lg">
+          ${results.length} result${results.length !== 1 ? 's' : ''} for <span class="font-medium">"${query}"</span>
+        </p>
+        <div class="space-y-6">
+      `;
+      
+      // Format each result
+      paginatedResults.forEach(result => {
+        // Ensure excerpt exists
+        const excerpt = result.excerpt || '';
+        
+        // Highlight search terms in the excerpt
+        let highlightedExcerpt = excerpt;
+        query.toLowerCase().split(' ').forEach(term => {
+          if (term.length < 3) return; // Skip very short terms
+          
+          const regex = new RegExp(`(${term})`, 'gi');
+          highlightedExcerpt = highlightedExcerpt.replace(regex, '<mark class="bg-yellow-100 px-1 rounded">$1</mark>');
+        });
+        
+        // Create a badge for the content type
+        const typeBadge = {
+          'blog': '<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Blog Post</span>',
+          'tag': '<span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Tag</span>',
+          'page': '<span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Page</span>'
+        }[result.type] || '';
+        
+        // Format tags if available
+        let tagsHtml = '';
+        if (result.tags && result.tags.length) {
+          tagsHtml = `
+            <div class="flex flex-wrap gap-1 mt-1">
+              ${result.tags.map(tag => 
+                `<a href="/tags/${tag}" class="text-xs text-gray-500 hover:text-gray-700 hover:underline">#${tag}</a>`
+              ).join(' ')}
+            </div>
+          `;
+        }
+        
+        // Add the formatted result
+        html += `
+          <div class="border-b border-gray-200 pb-4">
+            <div class="flex items-center gap-2 mb-1">
+              ${typeBadge}
+              ${result.date ? `<span class="text-sm text-gray-500">${new Date(result.date).toLocaleDateString()}</span>` : ''}
+            </div>
+            <h2 class="text-xl font-semibold mb-1">
+              <a href="${result.url}" class="text-blue-600 hover:underline">${result.title || 'Untitled'}</a>
+            </h2>
+            <p class="text-gray-700 mb-2">${highlightedExcerpt}</p>
+            ${tagsHtml}
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      return html;
+    }
+    
+    // Update pagination controls
+    function updatePagination(totalResults) {
+      const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+      
+      // Update pagination text
+      document.getElementById('paginationInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+      
+      // Update button states
+      document.getElementById('prevPageBtn').disabled = currentPage <= 1;
+      document.getElementById('nextPageBtn').disabled = currentPage >= totalPages;
+      
+      // Show/hide pagination controls
+      document.getElementById('paginationControls').classList.toggle('hidden', totalPages <= 1);
+    }
+    
+    // Generate content type filters
+    function generateFilters() {
+      // Get unique content types
+      const contentTypes = [...new Set(allSearchableContent.map(item => item.type))];
+      
+      // Create filter buttons
+      const filterContainer = document.getElementById('filterContainer');
+      contentTypes.forEach(type => {
+        if (!type) return; // Skip if type is undefined
+        
+        const filterBtn = document.createElement('button');
+        filterBtn.className = 'px-3 py-1 border border-gray-300 rounded-full text-sm hover:bg-gray-100 transition-colors';
+        filterBtn.textContent = type.charAt(0).toUpperCase() + type.slice(1) + 's';
+        filterBtn.dataset.filterType = type;
+        
+        filterBtn.addEventListener('click', () => {
+          // Toggle this filter
+          if (activeFilters.has(type)) {
+            activeFilters.delete(type);
+            filterBtn.classList.remove('bg-blue-100', 'border-blue-300');
+          } else {
+            activeFilters.add(type);
+            filterBtn.classList.add('bg-blue-100', 'border-blue-300');
+          }
+          
+          // Re-run search with updated filters
+          const searchInput = document.getElementById('searchInput');
+          if (searchInput.value) {
+            currentPage = 1; // Reset to first page
+            executeSearch(searchInput.value);
+          }
+        });
+        
+        filterContainer.appendChild(filterBtn);
+      });
+    }
+    
+    // Execute search and update UI
+    function executeSearch(query) {
+      // Show loading, hide initial message
+      document.getElementById('initialMessage')?.classList.add('hidden');
+      document.getElementById('loadingMessage')?.classList.remove('hidden');
+      
+      // Small delay to ensure loading state is visible
+      setTimeout(() => {
+        // Perform search
+        const filtersArray = activeFilters.size > 0 ? Array.from(activeFilters) : [];
+        currentResults = performSearch(query, filtersArray);
+        currentQuery = query;
+        
+        // Update the search results
+        const searchResultsContainer = document.getElementById('searchResults');
+        searchResultsContainer.innerHTML = formatSearchResults(currentResults, query, currentPage);
+        
+        // Update pagination
+        updatePagination(currentResults.length);
+        
+        // Hide loading message
+        document.getElementById('loadingMessage')?.classList.add('hidden');
+      }, 200);
+    }
+    
+    // Initialize search functionality when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get search query from URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchQuery = urlParams.get('q') || '';
+      
+      // Set up search input
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.value = searchQuery;
+      }
+      
+      // Generate filter options
+      generateFilters();
+      
+      // Set up pagination handlers
+      document.getElementById('prevPageBtn').addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          const searchResultsContainer = document.getElementById('searchResults');
+          searchResultsContainer.innerHTML = formatSearchResults(currentResults, currentQuery, currentPage);
+          updatePagination(currentResults.length);
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+      });
+      
+      document.getElementById('nextPageBtn').addEventListener('click', () => {
+        const totalPages = Math.ceil(currentResults.length / RESULTS_PER_PAGE);
+        if (currentPage < totalPages) {
+          currentPage++;
+          const searchResultsContainer = document.getElementById('searchResults');
+          searchResultsContainer.innerHTML = formatSearchResults(currentResults, currentQuery, currentPage);
+          updatePagination(currentResults.length);
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+      });
+      
+      // Execute search if query exists
+      if (searchQuery) {
+        executeSearch(searchQuery);
+      }
+    });
+  </script>
+</Layout>

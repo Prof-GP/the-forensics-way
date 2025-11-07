@@ -1,0 +1,71 @@
+---
+// src/components/Header.astro
+import Navigation from './Navigation.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import SearchBar from './SearchBar.astro';
+import LogoIcon from './LogoIcon.astro'
+
+---
+
+<header>
+  <div class="container">
+    <div class="logo">
+      <a href="/">My Astro Blog <LogoIcon imageSrc="/images/astro-logo-transparent.png" width={40} height={24} className="ml-2" /></a>
+    </div>
+    <div class="right-elements">
+      <Navigation />
+      <ThemeToggle />
+      <SearchBar />
+    </div>
+  </div>
+  
+</header>
+
+<style>
+  header {
+    background-color: #ffffff;
+    padding: 1rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo a {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    text-decoration: none;
+    display: inline-flex;
+    
+  }
+  
+  .right-elements {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Space between navigation and theme toggle */
+  }
+  
+  /* Dark mode styles */
+  :root.dark header {
+    background-color: var(--header-bg-dark, #1a1a1a);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  :root.dark .logo a {
+    color: var(--logo-color-dark, #f5f5f5);
+  }
+ 
+</style>
+
+
+

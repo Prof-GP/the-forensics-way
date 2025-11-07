@@ -1,0 +1,104 @@
+---
+// src/layouts/BlogPostLayout.astro
+import MainLayout from './MainLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import { formatDate } from '../utils/dates';
+
+const { frontmatter } = Astro.props;
+---
+
+<MainLayout title={frontmatter.title} description={frontmatter.description}>
+  <article class="blog-post">
+    <div class="post-header">
+      <h1>{frontmatter.title}</h1>
+      
+      <div class="post-meta">
+        <span class="post-date">
+          {formatDate(frontmatter.pubDate)}
+        </span>
+        <span class="post-author">
+          By {frontmatter.author}
+        </span>
+      </div>
+      
+      {frontmatter.image && (
+        <img 
+          src={frontmatter.image} 
+          alt={frontmatter.title} 
+          class="featured-image"
+        />
+      )}
+    </div>
+    
+      
+    
+    <div class="post-content">
+      <slot />
+    </div>
+    
+    {frontmatter.tags && frontmatter.tags.length > 0 && (
+      <div class="post-tags">
+        {frontmatter.tags.map(tag => (
+          <a href={`/tags/${tag}`} class="tag">{tag}</a>
+        ))}
+      </div>
+    )}
+  </article>
+</MainLayout>
+
+<style>
+  .blog-post {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .post-header {
+    margin-bottom: 2rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .post-meta {
+    display: flex;
+    gap: 1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+  
+  .featured-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  
+  .post-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+  }
+  
+  .post-tags {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tag {
+    background-color: #f0f0f0;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s;
+  }
+  
+  .tag:hover {
+    background-color: #e0e0e0;
+  }
+</style>

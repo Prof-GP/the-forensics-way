@@ -1,0 +1,103 @@
+<div class="theme-toggle-container">
+  <button id="theme-toggle" aria-label="Toggle dark mode">
+    <svg xmlns="http://www.w3.org/2000/svg" id="sun-icon" class="icon sun" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" id="moon-icon" class="icon moon" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </button>
+</div>
+
+<style>
+  .theme-toggle-container {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 1rem; /* Spacing from other navigation elements */
+  }
+  
+  #theme-toggle {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  #theme-toggle:hover {
+    background-color: var(--theme-toggle-hover, rgba(0, 0, 0, 0.1));
+  }
+  
+  .icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  /* Only one icon will be visible at a time */
+  .moon {
+    display: none;
+  }
+  
+  :root.dark .sun {
+    display: none;
+  }
+  
+  :root.dark .moon {
+    display: block;
+  }
+  
+  /* For extra flair, add a little rotation animation */
+  #theme-toggle:active .icon {
+    transform: rotate(20deg);
+  }
+</style>
+
+<script>
+  // Initialize theme toggle functionality
+  const initTheme = () => {
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    // Function to get the user's theme preference
+    const getThemePreference = () => {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+        return localStorage.getItem('theme');
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    
+    // Function to set the theme
+    const setTheme = (theme) => {
+      const root = document.documentElement;
+      if (theme === 'dark') {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+      localStorage.setItem('theme', theme);
+    };
+    
+    // Initialize theme on page load
+    const currentTheme = getThemePreference();
+    setTheme(currentTheme);
+    
+    // Toggle theme when button is clicked
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.contains('dark');
+        setTheme(isDark ? 'light' : 'dark');
+      });
+    }
+  };
+  
+  // Run once on page load and also after astro transitions
+  document.addEventListener('DOMContentLoaded', initTheme);
+  document.addEventListener('astro:page-load', initTheme);
+</script>

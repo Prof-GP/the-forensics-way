@@ -1,0 +1,94 @@
+---
+// src/components/TableOfContents.astro
+// A static, server-rendered table of contents component
+// This doesn't rely on client-side JavaScript
+
+export interface Props {
+  title?: string;
+}
+
+const { 
+  title = 'Table of Contents'
+} = Astro.props;
+---
+
+<div class="toc-container">
+  <div class="toc-inner">
+    <h2 class="toc-title">{title}</h2>
+    
+    <!-- Static TOC entries -->
+    <ul class="toc-list">
+      <li class="toc-item">
+        <a href="#section-1" class="toc-link">Introduction</a>
+      </li>
+      <li class="toc-item">
+        <a href="#section-2" class="toc-link">Getting Started</a>
+      </li>
+      <li class="toc-item">
+        <a href="#section-3" class="toc-link">Key Concepts</a>
+        <ul class="toc-sublist">
+          <li class="toc-subitem">
+            <a href="#section-3-1" class="toc-link">Important Details</a>
+          </li>
+        </ul>
+      </li>
+      <li class="toc-item">
+        <a href="#section-4" class="toc-link">Conclusion</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .toc-container {
+    margin-bottom: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eaeaea;
+  }
+  
+  .toc-inner {
+    padding: 1.25rem;
+  }
+  
+  .toc-title {
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .toc-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .toc-item {
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+  
+  .toc-sublist {
+    list-style-type: none;
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .toc-subitem {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+  
+  .toc-link {
+    color: #444;
+    text-decoration: none;
+    display: inline-block;
+    transition: color 0.2s;
+  }
+  
+  .toc-link:hover {
+    color: #000;
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,133 @@
+---
+// src/pages/index.astro
+import MainLayout from '../layouts/MainLayout.astro';
+import BlogPostCard from '../components/BlogPostCard.astro';
+import { getCollection } from 'astro:content';
+
+// Get recent blog posts
+const posts = await getCollection('blog');
+const recentPosts = posts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<MainLayout title="My Astro Blog" description="A modern blog built with Astro">
+  <section class="hero">
+    <div class="container">
+      <h1>Welcome to My Astro Blog</h1>
+      <p>A fast, modern static site built with Astro.</p>
+      <a href="/blog" class="btn">Read the Blog</a>
+    </div>
+  </section>
+
+  <section class="recent-posts">
+    <div class="container">
+      <h2>Recent Posts</h2>
+      
+      <div class="post-grid">
+        {recentPosts.map(post => (
+          <BlogPostCard post={post} />
+        ))}
+      </div>
+      
+      <div class="view-all">
+        <a href="/blog" class="view-all-link">View all posts →</a>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .hero {
+    padding: 4rem 1rem;
+    background-color: #f5f5f5;
+    text-align: center;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 2rem;
+  }
+  
+  :root.dark .hero {
+    background-color: var(--hero-bg-dark, #1a1a1a)
+  }
+  
+  :root.dark .hero h1 {
+    color: var(--heroh1-color-dark, #f5f5f5);
+  }
+  
+  :root.dark .hero p {
+    color: var(--herop-color-dark, #f5f5f5);
+  }
+  
+  .btn {
+    display: inline-block;
+    background-color: #0077cc;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s;
+  }
+  
+  .btn:hover {
+    background-color: #005fa3;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .recent-posts {
+    padding: 4rem 1rem;
+  }
+  
+  .recent-posts h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .view-all {
+    margin-top: 3rem;
+    text-align: center;
+  }
+  
+  .view-all-link {
+    color: #0077cc;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  
+  .view-all-link:hover {
+    color: #005fa3;
+  }
+  
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2rem;
+    }
+    
+    .post-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,180 @@
+---
+// src/pages/blog/[slug].astro
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import { formatDate } from '../../utils/dates';
+
+// Generate static paths for all blog posts
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+  
+  return blogPosts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<MainLayout title={post.data.title} description={post.data.description}>
+  <article class="blog-post">
+    <div class="container">
+      <div class="post-header">
+        <h1>{post.data.title}</h1>
+        
+        <div class="post-meta">
+          <span class="post-date">
+            {formatDate(post.data.pubDate)}
+          </span>
+          <span class="post-author">
+            By {post.data.author}
+          </span>
+        </div>
+        
+        {post.data.image && (
+          <img 
+            src={post.data.image} 
+            alt={post.data.title} 
+            class="featured-image"
+          />
+        )}
+      </div>
+      
+      <div class="post-content">
+        <Content />
+      </div>
+      
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="post-tags">
+          <h3>Tags:</h3>
+          <div class="tags-list">
+            {post.data.tags.map(tag => (
+              <a href={`/tags/${tag}`} class="tag">{tag}</a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </article>
+</MainLayout>
+
+<style>
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .post-header {
+    margin-bottom: 2rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .post-meta {
+    display: flex;
+    gap: 1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+  
+  .featured-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  
+  .post-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+  }
+  
+  .post-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+  
+  .post-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.4rem;
+  }
+  
+  .post-content p {
+    margin-bottom: 1.2rem;
+  }
+  
+  .post-content ul, .post-content ol {
+    margin-bottom: 1.2rem;
+    padding-left: 1.5rem;
+  }
+  
+  .post-content li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .post-content blockquote {
+    border-left: 4px solid #0077cc;
+    padding-left: 1rem;
+    margin-left: 0;
+    color: #555;
+    font-style: italic;
+  }
+  
+  .post-content pre {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin-bottom: 1.2rem;
+  }
+  
+  .post-content code {
+    background-color: #f5f5f5;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+  }
+  
+  .post-content a {
+    color: #0077cc;
+    text-decoration: underline;
+  }
+  
+  .post-tags {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eaeaea;
+  }
+  
+  .post-tags h3 {
+    margin-bottom: 0.75rem;
+  }
+  
+  .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tag {
+    background-color: #f0f0f0;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s;
+  }
+  
+  .tag:hover {
+    background-color: #e0e0e0;
+  }
+</style>
