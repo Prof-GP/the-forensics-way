@@ -1,3 +1,13 @@
+---
+title: "Forensic Timelining"
+description: "Different method to creating a timeline"
+pubDate: 2025-11-08
+author: "RMondGP"
+image: 'images/timeline_image.png'
+tags: ['forensics','timeline']
+---
+
+
 ## Super timeline traditional method
 
 Disorganizaed time data is a major issue during any digital forensics investigations. Timestamps from every file, log, and event are scattered everywhere, making it nearly impossible to see what happened on a system. That's where the super timeline comes in. A super timeline is chronological organized collection of all the timestamps from artifacts collected to help clear get a clear picture of everything that has occurred on a system.
