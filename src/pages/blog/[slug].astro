@@ -3,6 +3,7 @@
 import { getCollection } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { formatDate } from '../../utils/dates';
+import { withBase } from '../../utils/paths';
 
 // Generate static paths for all blog posts
 export async function getStaticPaths() {
@@ -35,7 +36,7 @@ const { Content } = await post.render();
         
         {post.data.image && (
           <img 
-            src={post.data.image} 
+            src={withBase(post.data.image)} 
             alt={post.data.title} 
             class="featured-image"
           />
@@ -51,7 +52,7 @@ const { Content } = await post.render();
           <h3>Tags:</h3>
           <div class="tags-list">
             {post.data.tags.map(tag => (
-              <a href={`/tags/${tag}`} class="tag">{tag}</a>
+              <a href={withBase(`tags/${tag}`)} class="tag">{tag}</a>
             ))}
           </div>
         </div>

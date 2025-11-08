@@ -1,6 +1,7 @@
 ---
 // src/components/BlogPostCard.astro
 import { formatDate } from '../utils/dates';
+import { withBase } from "../utils/paths";
 
 const { post } = Astro.props;
 ---
@@ -18,7 +19,7 @@ const { post } = Astro.props;
     </div>
     
     <h2 class="card-title">
-      <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+      <a href={withBase(`blog/${post.slug}`)}>{post.data.title}</a>
     </h2>
     
     <p class="card-excerpt">
@@ -26,14 +27,14 @@ const { post } = Astro.props;
     </p>
     
     <div class="card-footer">
-      <a href={`/blog/${post.slug}`} class="read-more">
+      <a href={withBase(`blog/${post.slug}`)} class="read-more">
         Read more →
       </a>
       
       {post.data.tags && post.data.tags.length > 0 && (
         <div class="card-tags">
           {post.data.tags.slice(0, 2).map((tag) => (
-            <a href={`/tags/${tag}`} class="tag">{tag}</a>
+            <a href={withBase(`tags/${tag}`)} class="tag">{tag}</a>
           ))}
         </div>
       )}
