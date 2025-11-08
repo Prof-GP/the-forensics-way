@@ -3,7 +3,7 @@ title: "Getting Started with Astro"
 description: "Learn how to build static sites with Astro's modern web development framework."
 pubDate: 2025-05-12
 author: "Jane Doe"
-image: "/images/astro-logo.png"
+image: 'images/astro-logo.png'
 tags: ["astro", "web development", "jamstack"]
 ---
 
