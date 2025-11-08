@@ -5,11 +5,14 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
-  // output: 'static',
-  site: 'https://rmondgp.github.io/The-Forensics-Way',
+  output: 'static',
+  site: 'https://RMondGP.github.io/',
   integrations: [
     mdx(),
   ],
+  build: {
+    assets: 'assets'
+  },
   markdown: {
     shikiConfig: {
       theme: 'gruvbox-dark-hard',

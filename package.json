@@ -8,6 +8,7 @@
     "preview": "astro preview",
     "astro": "astro"
   },
+  "build:gh-page": "astro check && astro build --base=/The-Forensics-Way/",
   "dependencies": {
     "@astrojs/mdx": "^4.3.10",
     "@astrojs/rss": "^4.0.13",
