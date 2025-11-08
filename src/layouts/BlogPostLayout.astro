@@ -3,6 +3,7 @@
 import MainLayout from './MainLayout.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import { formatDate } from '../utils/dates';
+import { withBase } from '../utils/paths';
 
 const { frontmatter } = Astro.props;
 ---
@@ -23,7 +24,7 @@ const { frontmatter } = Astro.props;
       
       {frontmatter.image && (
         <img 
-          src={frontmatter.image} 
+          src={withBase(frontmatter.image)} 
           alt={frontmatter.title} 
           class="featured-image"
         />
