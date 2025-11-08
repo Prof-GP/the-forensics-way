@@ -13,11 +13,7 @@ const recentPosts = posts
 
 <MainLayout title="The Forensics Way" description="A modern blog built with Astro">
   <section class="hero">
-    <div class="container">
-      <h1>The Forensics Way</h1>
-      <p>A fast, modern static site built with Astro.</p>
-      <a href="/The-Forensics-Way/blog" class="btn">Read the Blog</a>
-    </div>
+    <a href="/blog" class="btn">Read the Blog</a>
   </section>
 
   <section class="recent-posts">
@@ -31,7 +27,7 @@ const recentPosts = posts
       </div>
       
       <div class="view-all">
-        <a href="/The-Forensics-Way/blog" class="view-all-link">View all posts →</a>
+        <a href="/blog" class="view-all-link">View all posts →</a>
       </div>
     </div>
   </section>
@@ -39,35 +35,18 @@ const recentPosts = posts
 
 <style>
   .hero {
-    padding: 4rem 1rem;
-    background-color: #f5f5f5;
-    text-align: center;
-  }
-  
-  .hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .hero p {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 2rem;
-  }
-  
-  :root.dark .hero {
-    background-color: var(--hero-bg-dark, #1a1a1a)
-  }
-  
-  :root.dark .hero h1 {
-    color: var(--heroh1-color-dark, #f5f5f5);
-  }
-  
-  :root.dark .hero p {
-    color: var(--herop-color-dark, #f5f5f5);
+    position: relative;
+    min-height: 500px;
+    background-image: url('/images/The%20Forensic%20Way.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
   
   .btn {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
     display: inline-block;
     background-color: #0077cc;
     color: white;
@@ -76,6 +55,7 @@ const recentPosts = posts
     text-decoration: none;
     font-weight: 600;
     transition: background-color 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
   
   .btn:hover {
@@ -122,6 +102,10 @@ const recentPosts = posts
   }
   
   @media (max-width: 768px) {
+    .hero {
+      min-height: 400px;
+    }
+
     .hero h1 {
       font-size: 2rem;
     }
