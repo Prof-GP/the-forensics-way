@@ -1,14 +1,14 @@
 ---
 // src/components/BlogPostCard.astro
 import { formatDate } from '../utils/dates';
-import { withBase } from "../utils/paths";
+import { withBase } from '../utils/paths';
 
 const { post } = Astro.props;
 ---
 
 <div class="blog-card">
   {post.data.image && (
-    <a href={`/blog/${post.slug}`} class="card-image-link">
+    <a href={withBase(`blog/${post.slug}`)} class="card-image-link">
       <img src={post.data.image} alt={post.data.title} class="card-image" />
     </a>
   )}
@@ -33,7 +33,7 @@ const { post } = Astro.props;
       
       {post.data.tags && post.data.tags.length > 0 && (
         <div class="card-tags">
-          {post.data.tags.slice(0, 2).map((tag) => (
+          {post.data.tags.slice(0, 2).map((tag: unknown) => (
             <a href={withBase(`tags/${tag}`)} class="tag">{tag}</a>
           ))}
         </div>

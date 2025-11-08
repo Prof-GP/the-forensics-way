@@ -3,6 +3,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import BlogPostCard from '../components/BlogPostCard.astro';
 import { getCollection } from 'astro:content';
+import { withBase } from "../utils/paths";
 
 // Get recent blog posts
 const posts = await getCollection('blog');
@@ -13,7 +14,7 @@ const recentPosts = posts
 
 <MainLayout title="The Forensics Way" description="A modern blog built with Astro">
   <section class="hero">
-    <a href="/blog" class="btn">Read the Blog</a>
+    <a href={withBase('blog')} class="btn">Read the Blog</a>
   </section>
 
   <section class="recent-posts">
@@ -27,7 +28,7 @@ const recentPosts = posts
       </div>
       
       <div class="view-all">
-        <a href="/blog" class="view-all-link">View all posts →</a>
+        <a href={withBase('blog')} class="view-all-link">View all posts →</a>
       </div>
     </div>
   </section>
