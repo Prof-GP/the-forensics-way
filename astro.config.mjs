@@ -5,7 +5,7 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://RMondGP.github.io/',
+  site: 'https://rmondgp.github.io/',
   integrations: [
     mdx(),
   ],
