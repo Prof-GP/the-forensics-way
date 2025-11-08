@@ -9,9 +9,6 @@ export default defineConfig({
   integrations: [
     mdx(),
   ],
-  build: {
-    assets: 'assets'
-  },
   markdown: {
     shikiConfig: {
       theme: 'gruvbox-dark-hard',
