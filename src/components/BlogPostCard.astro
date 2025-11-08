@@ -7,7 +7,7 @@ const { post } = Astro.props;
 
 <div class="blog-card">
   {post.data.image && (
-    <a href={`/blog/${post.slug}`} class="card-image-link">
+    <a href={`/{post.url}/${post.slug}`} class="card-image-link">
       <img src={post.data.image} alt={post.data.title} class="card-image" />
     </a>
   )}
@@ -18,7 +18,7 @@ const { post } = Astro.props;
     </div>
     
     <h2 class="card-title">
-      <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+      <a href={`/{post.url}/${post.slug}`}>{post.data.title}</a>
     </h2>
     
     <p class="card-excerpt">
@@ -26,7 +26,7 @@ const { post } = Astro.props;
     </p>
     
     <div class="card-footer">
-      <a href={`/blog/${post.slug}`} class="read-more">
+      <a href={`/{post.url}/${post.slug}`} class="read-more">
         Read more →
       </a>
       
