@@ -1,5 +1,5 @@
 {
-  "name": "my-astro-blog",
+  "name": "The-Forensics-Way",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/mdx": "^4.3.10",
     "astro": "^5.7.13"
   }
 }
