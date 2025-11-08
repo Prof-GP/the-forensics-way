@@ -3,7 +3,7 @@ title: Creating Github-Page is a Pain
 description: My method of getting this site to work.
 pubDate: 2025-05-19
 author: RMondGP
-image: 'images/home.jpg'
+image: '/images/home.jpg'
 tags: ['git', 'obsidian', 'vault', 'howto']
 ---
 
