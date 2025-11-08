@@ -7,8 +7,6 @@ import mdx from '@astrojs/mdx';
 export default defineConfig({
   // output: 'static',
   site: 'https://rmondgp.github.io/The-Forensics-Way',
-  base: '',
-
   integrations: [
     mdx(),
   ],
