@@ -18,11 +18,15 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
+        with:
+          path: The-Forensics-Way  # <-- Set the path to your repo name (no leading slash)
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         with:
+        # Tell the Astro action that the source code is inside this folder:
+          path: The-Forensics-Way # <-- Match the path from checkout
           # This forces the correct base path for the build step.
-          path: /The-Forensics-Way
+          base: /The-Forensics-Way
 
   deploy:
     needs: build
