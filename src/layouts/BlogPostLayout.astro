@@ -3,7 +3,7 @@
 import MainLayout from './MainLayout.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import { formatDate } from '../utils/dates';
-import { withBase } from '../utils/paths';
+
 
 const { frontmatter } = Astro.props;
 ---
@@ -24,7 +24,7 @@ const { frontmatter } = Astro.props;
       
       {frontmatter.image && (
         <img 
-          src={withBase(frontmatter.image)} 
+          src={frontmatter.image} 
           alt={frontmatter.title} 
           class="featured-image"
         />
@@ -40,7 +40,7 @@ const { frontmatter } = Astro.props;
     {frontmatter.tags && frontmatter.tags.length > 0 && (
       <div class="post-tags">
         {frontmatter.tags.map((tag: string) => (
-          <a href={withBase(`tags/${tag}`)} class="tag">{tag}</a>
+          <a href={`/tags/${tag}`} class="tag">{tag}</a>
         ))}
       </div>
     )}

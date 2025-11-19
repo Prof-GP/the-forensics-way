@@ -105,22 +105,22 @@ To make future syncing super easy, install the Git plugin within Obsidian:
 3. Click the folder you created for the vault `username.github.io`
 4. Once opened,  go to settings by clicking the gear to the right of your folder
 
-<img src='images/Pasted_image_20250513195037.png'>
+<img src='/images/Pasted_image_20250513195037.png'>
 5. Navigate to community plugins where it should be restricted, accept the risk
 6. Browse for plugins
  
 <img src="/images/Pasted_image_20250513195307.png">
 
 6. Search for the Git plugin and install
-<img src='images/Pasted_image_20250513195454.png'>
+<img src='/images/Pasted_image_20250513195454.png'>
 
 7. Once installed, head back to your settings and there should be a section for community plugins with Git displayed, toggle it on, if not already on
-<img src='images/Pasted_image_20250513195951.png'>
+<img src='/images/Pasted_image_20250513195951.png'>
 
 8. Exit out of settings and now obsidian should be ready for anything. You'll now see a Git icon <img src="/images/Pasted_image_20250513200120.png"> in the left sidebar. Click it to open the Git Source Control panel on the right. This panel lets you pull changes from GitHub, commit your local edits, and push them back to your repo – all without touching the command line! .
-<img src='images/Pasted_image_20250513200310.png'>
+<img src='/images/Pasted_image_20250513200310.png'>
 9. Alternatively, use the command palette <img src='images/Pasted_image_20250513200407.png'>  or (`Ctrl/Cmd + P`) and type "Git Push", "Git Pull", or "Git Commit" for quick actions.
-<img src='images/Pasted_image_20250513200540.png'>
+<img src='/images/Pasted_image_20250513200540.png'>
 
 That's it! Your Obsidian vault is now linked to GitHub, and you can use the plugin to easily sync your notes. Publish your brilliant thoughts to the web with just a few clicks!
 

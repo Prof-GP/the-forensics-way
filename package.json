@@ -11,7 +11,8 @@
   "dependencies": {
     "@astrojs/mdx": "^4.3.10",
     "@astrojs/rss": "^4.0.13",
-    "astro": "^5.7.13"
+    "astro": "^5.7.13",
+    "shiki": "^3.15.0"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0"

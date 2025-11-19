@@ -1,0 +1,145 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import MalwareTrackingBoard from '../components/MalwareTrackingBoard.astro';
+---
+
+<MainLayout 
+  title="Malware Analysis Tracking | The Forensics Way" 
+  description="Track the progress of submitted malware samples through our analysis pipeline"
+>
+  <div class="container">
+    <div class="tracking-page">
+      <div class="page-intro">
+        <h1>Malware Analysis Tracking</h1>
+        <p class="lead">
+          Monitor the progress of submitted malware samples through our analysis pipeline. 
+          All submissions are anonymized for privacy.
+        </p>
+      </div>
+
+      <div class="info-box">
+        <h3>📊 How It Works</h3>
+        <ul>
+          <li><strong>Submitted:</strong> Sample received and queued for initial triage</li>
+          <li><strong>Analyzing:</strong> Sample undergoing automated analysis</li>
+          <li><strong>In Progress:</strong> Manual analysis and research in progress</li>
+          <li><strong>Completed:</strong> Analysis complete, results may be published</li>
+        </ul>
+      </div>
+
+      <MalwareTrackingBoard />
+
+      <div class="privacy-note">
+        <h3>🔒 Privacy Notice</h3>
+        <p>
+          All displayed information is anonymized. Submitter details are never shown publicly. 
+          Only sample hashes, names, and analysis status are displayed.
+        </p>
+      </div>
+    </div>
+  </div>
+</MainLayout>
+
+<style>
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .page-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .page-intro h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .lead {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .info-box {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 3rem;
+  }
+  
+  .info-box h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+  
+  .info-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0 0;
+  }
+  
+  .info-box li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .info-box li:last-child {
+    border-bottom: none;
+  }
+  
+  .privacy-note {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 3rem;
+    border-left: 4px solid #667eea;
+  }
+  
+  .privacy-note h3 {
+    margin-top: 0;
+    color: #667eea;
+  }
+
+  .privacy-note p {
+margin: 0;
+color: #666;
+line-height: 1.6;
+}
+/* Dark mode */
+:root.dark .lead {
+color: #ccc;
+}
+:root.dark .privacy-note {
+background: #1a1a1a;
+border-left-color: #667eea;
+}
+:root.dark .privacy-note p {
+color: #ccc;
+}
+/* Mobile styles */
+@media (max-width: 768px) {
+.container {
+padding: 1rem;
+}
+.page-intro h1 {
+  font-size: 2rem;
+}
+
+.lead {
+  font-size: 1rem;
+}
+
+.info-box {
+  padding: 1.5rem;
+}
+
+.info-box li {
+  font-size: 0.9rem;
+}
+}
+</style>

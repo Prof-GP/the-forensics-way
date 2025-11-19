@@ -4,22 +4,23 @@ import Navigation from './Navigation.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import SearchBar from './SearchBar.astro';
 import LogoIcon from './LogoIcon.astro'
-import { withBase } from '../utils/paths';
 
 ---
 
 <header>
   <div class="container">
     <div class="logo">
-      <a href={withBase('')}> The Forensics Way <LogoIcon imageSrc={withBase("/images/astro-logo-transparent.png")} width={40} height={24} className="ml-2" /></a>
+      <a href='/'> The Forensics Way <LogoIcon imageSrc="/images/Twitch%20Emote%20Salute.png" width={40} height={24} className="ml-6" /></a>
     </div>
     <div class="right-elements">
       <Navigation />
-      <ThemeToggle />
-      <SearchBar />
+       <div class="header-actions">
+          <ThemeToggle />
+          <SearchBar />
+        </div>
+      </div>
     </div>
   </div>
-  
 </header>
 
 <style>
@@ -40,20 +41,66 @@ import { withBase } from '../utils/paths';
     justify-content: space-between;
     align-items: center;
   }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    gap: 1rem;
+  }
   
   .logo a {
-    font-size: 1.5rem;
-    font-weight: 700;
+     font-size: 1.25rem;
+    font-weight: bold;
     color: #333;
     text-decoration: none;
-    display: inline-flex;
-    
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   
   .right-elements {
     display: flex;
     align-items: center;
-    gap: 1rem; /* Space between navigation and theme toggle */
+    gap: 0.05rem; /* Space between navigation and theme toggle */
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  
+  .mobile-menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 3px;
+    background-color: #333;
+    transition: all 0.3s;
+    border-radius: 2px;
+  }
+  
+  .mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+  
+  .mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
   }
   
   /* Dark mode styles */
@@ -65,7 +112,63 @@ import { withBase } from '../utils/paths';
   :root.dark .logo a {
     color: var(--logo-color-dark, #f5f5f5);
   }
+
+  :root.dark .mobile-menu-toggle span {
+    background-color: #f5f5f5;
+  }
  
+ /* Mobile styles */
+  @media (max-width: 768px) {
+    .mobile-menu-toggle {
+      display: flex;
+    }
+    
+    .right-elements {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: white;
+      flex-direction: column;
+      padding: 1.5rem;
+      gap: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .right-elements.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    :root.dark .right-elements {
+      background: #1a1a1a;
+      border-bottom: 1px solid #333;
+    }
+    
+    .header-actions {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .logo a {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .header-content {
+      padding: 0.75rem 0;
+    }
+    
+    .logo a {
+      font-size: 0.9rem;
+    }
+  }
 </style>
 
 

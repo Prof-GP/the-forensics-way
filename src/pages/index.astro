@@ -2,8 +2,10 @@
 // src/pages/index.astro
 import MainLayout from '../layouts/MainLayout.astro';
 import BlogPostCard from '../components/BlogPostCard.astro';
+import SubstackLatestPosts from '../components/SubstackLatestPost.astro';
+import SubmissionCard from '../components/SubmissionCard.astro';
 import { getCollection } from 'astro:content';
-import { withBase } from "../utils/paths";
+import SocialProjectsShowcase from '../components/SocialProjectsShowcase.astro';
 
 // Get recent blog posts
 const posts = await getCollection('blog');
@@ -14,7 +16,7 @@ const recentPosts = posts
 
 <MainLayout title="The Forensics Way" description="A modern blog built with Astro">
   <section class="hero">
-    <a href={withBase('blog')} class="btn">Read the Blog</a>
+    <a href='/blog' class="btn">Read the Blog</a>
   </section>
 
   <section class="recent-posts">
@@ -28,10 +30,49 @@ const recentPosts = posts
       </div>
       
       <div class="view-all">
-        <a href={withBase('blog')} class="view-all-link">View all posts →</a>
+        <a href='/blog' class="view-all-link">View all posts →</a>
       </div>
     </div>
   </section>
+
+  <!-- Add Submission Card Section -->
+  <section class="submission-section">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 2rem;">Contribute to the Fun and Track</h2>
+      <div class="submission-grid-two">
+        <SubmissionCard
+          title="Submit Malware Samples"
+          description="Help us improve cybersecurity research by submitting malware samples for analysis. Your contribution helps the community stay safer."
+          image="images/malware-submission.jpg"
+          link="submit-malware"
+          linkText="Learn How to Submit"
+        />
+
+        <SubmissionCard
+        title="Track Analysis Progress"
+        description="Monitor the progress of submitted samples through our analysis pipeline. See what we're currently working on in real-time."
+        image="/images/tracking-board.png"
+        link="/tracking"
+        linkText="View Tracking Board"
+      />
+      </div>
+    </div>
+  </section>
+  
+  <!-- Add Substack Posts Section -->
+  <div class="container">
+    <SubstackLatestPosts substackUrl="https://practicalforensics.substack.com" />
+
+    <!-- Add Social & Projects Showcase -->
+    <SocialProjectsShowcase 
+      githubUsername="Prof-GP"
+      threadsHandle="your-twitter"
+      linkedinUrl="https://www.linkedin.com/in/raymond-gp/"
+      discordUrl="https://discord.gg/your-server"
+    />
+  </div>
+
+
 </MainLayout>
 
 <style>
@@ -101,6 +142,14 @@ const recentPosts = posts
   .view-all-link:hover {
     color: #005fa3;
   }
+
+  .submission-grid-two {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
   
   @media (max-width: 768px) {
     .hero {
@@ -114,5 +163,19 @@ const recentPosts = posts
     .post-grid {
       grid-template-columns: 1fr;
     }
+  }
+
+  .submission-section {
+    padding: 3rem 1rem;
+    background: #f9f9f9;
+  }
+
+  .submission-grid-two {
+    grid-template-columns: 1fr;
+  }
+
+  
+  :root.dark .submission-section {
+    background: #0a0a0a;
   }
 </style>
