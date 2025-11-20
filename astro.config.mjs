@@ -5,7 +5,8 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.theforensicsway.com/',
+  site: 'https://prof-gp.github.io/the-forensics-way/',
+  base: '/the-forensics-way/',
   integrations: [
     mdx(),
   ],
