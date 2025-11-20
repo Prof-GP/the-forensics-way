@@ -18,7 +18,7 @@ jobs:
       - name: Install, build, and upload site
         uses: withastro/action@v5
         with:
-          path: .
+          path: /the-forensics-way
           node-version: 24
           package-manager: npm@latest
           build-cmd: npm run build
