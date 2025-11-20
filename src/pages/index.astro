@@ -22,15 +22,15 @@ const recentPosts = posts
   <section class="recent-posts">
     <div class="container">
       <h2>Recent Posts</h2>
-      
+
       <div class="post-grid">
         {recentPosts.map(post => (
           <BlogPostCard post={post} />
         ))}
       </div>
-      
+
       <div class="view-all">
-        <a href='/blog' class="view-all-link">View all posts →</a>
+        <a href='blog' class="view-all-link">View all posts →</a>
       </div>
     </div>
   </section>
@@ -52,19 +52,19 @@ const recentPosts = posts
         title="Track Analysis Progress"
         description="Monitor the progress of submitted samples through our analysis pipeline. See what we're currently working on in real-time."
         image="images/tracking-board.png"
-        link="/tracking"
+        link="tracking"
         linkText="View Tracking Board"
       />
       </div>
     </div>
   </section>
-  
+
   <!-- Add Substack Posts Section -->
   <div class="container">
     <SubstackLatestPosts substackUrl="https://practicalforensics.substack.com" />
 
     <!-- Add Social & Projects Showcase -->
-    <SocialProjectsShowcase 
+    <SocialProjectsShowcase
       githubUsername="Prof-GP"
       threadsHandle="your-twitter"
       linkedinUrl="https://www.linkedin.com/in/raymond-gp/"
@@ -84,7 +84,7 @@ const recentPosts = posts
     background-position: center;
     background-repeat: no-repeat;
   }
-  
+
   .btn {
     position: absolute;
     bottom: 2rem;
@@ -99,38 +99,38 @@ const recentPosts = posts
     transition: background-color 0.2s;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
-  
+
   .btn:hover {
     background-color: #005fa3;
   }
-  
+
   .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
   }
-  
+
   .recent-posts {
     padding: 4rem 1rem;
   }
-  
+
   .recent-posts h2 {
     font-size: 2rem;
     margin-bottom: 2rem;
     text-align: center;
   }
-  
+
   .post-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
   }
-  
+
   .view-all {
     margin-top: 3rem;
     text-align: center;
   }
-  
+
   .view-all-link {
     color: #0077cc;
     text-decoration: none;
@@ -138,7 +138,7 @@ const recentPosts = posts
     font-weight: 500;
     transition: color 0.2s;
   }
-  
+
   .view-all-link:hover {
     color: #005fa3;
   }
@@ -150,7 +150,7 @@ const recentPosts = posts
   max-width: 1200px;
   margin: 0 auto;
 }
-  
+
   @media (max-width: 768px) {
     .hero {
       min-height: 400px;
@@ -159,7 +159,7 @@ const recentPosts = posts
     .hero h1 {
       font-size: 2rem;
     }
-    
+
     .post-grid {
       grid-template-columns: 1fr;
     }
@@ -174,7 +174,7 @@ const recentPosts = posts
     grid-template-columns: 1fr;
   }
 
-  
+
   :root.dark .submission-section {
     background: #0a0a0a;
   }
