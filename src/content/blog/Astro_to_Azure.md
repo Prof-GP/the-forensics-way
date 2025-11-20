@@ -3,7 +3,7 @@ title: Deploying My Astro Static Site with Azure
 description: Adventure to figure out where to deploy 
 pubDate: 2025-11-09
 author: RMondGP
-image: '/images/astro_to_azure.png'
+image: 'images/astro_to_azure.png'
 tags: ['astrojs', 'azure', 'Static Website', 'howto']
 ---
 
