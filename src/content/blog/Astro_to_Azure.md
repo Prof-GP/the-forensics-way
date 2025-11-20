@@ -83,23 +83,23 @@ Turns out, cloud giants like Microsoft Azure and Amazon AWS offer super-simple s
 
 I already had an email, so I went with Microsoft Azure. Head over to `portal.azure.com` and use your email to grab an Azure subscription.
 
-<img src='/images/azure%20sub.png'>
+<img src='images/azure%20sub.png'>
 
 You'll see your subscription immediately . Click it and look for the Resource Group option on the left. You need to create one first—it's basically a project folder for everything you're about to build.
 
-<img src='/images/resourcegroup.png'>
+<img src='images/resourcegroup.png'>
 
 Once that's done, grab a Storage Account. Search for it and create one, making sure to select the Resource Group you just made.
 
-<img src='/images/storageact.png'>
+<img src='images/storageact.png'>
 
 With your storage account ready, look under Data Management for Static Website. It'll be disabled. Enable it!
 
 This step creates a container named `$web`, gives you a domain, and sets `index.html` as the default. That `$web` container is where the contents of your finished build (from your local `/dist` folder) need to go so the site can be hosted.
 
-<img src='/images/staticsite.png'>
+<img src='images/staticsite.png'>
 
-<img src='/images/enablestatic.png'>
+<img src='images/enablestatic.png'>
 
 This step creates a container named $web, gives you a domain, and sets index.html as the default. That $web container is where the contents of your finished build (from your local /dist folder) need to go so the site can be hosted.
 

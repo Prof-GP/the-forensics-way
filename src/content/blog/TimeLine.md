@@ -3,7 +3,7 @@ title: "Forensic Timelining"
 description: "Different method to creating a timeline"
 pubDate: 2025-11-08
 author: "RMondGP"
-image: '/images/timeline_image.png'
+image: 'images/timeline_image.png'
 tags: ['forensics','timeline']
 ---
 
