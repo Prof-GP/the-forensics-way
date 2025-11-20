@@ -5,12 +5,13 @@ import ThemeToggle from './ThemeToggle.astro';
 import SearchBar from './SearchBar.astro';
 import LogoIcon from './LogoIcon.astro'
 
+const BASE_URL = import.meta.env.BASE_URL;
 ---
 
 <header>
   <div class="container">
     <div class="logo">
-      <a href='/'> The Forensics Way <LogoIcon imageSrc="/images/Twitch%20Emote%20Salute.png" width={40} height={24} className="ml-6" /></a>
+      <a href={`${BASE_URL}`}> The Forensics Way <LogoIcon imageSrc="/images/Twitch%20Emote%20Salute.png" width={40} height={24} className="ml-6" /></a>
     </div>
     <div class="right-elements">
       <Navigation />
@@ -32,7 +33,7 @@ import LogoIcon from './LogoIcon.astro'
     top: 0;
     z-index: 100;
   }
-  
+
   .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -49,7 +50,7 @@ import LogoIcon from './LogoIcon.astro'
     padding: 1rem 0;
     gap: 1rem;
   }
-  
+
   .logo a {
      font-size: 1.25rem;
     font-weight: bold;
@@ -59,7 +60,7 @@ import LogoIcon from './LogoIcon.astro'
     align-items: center;
     gap: 0.5rem;
   }
-  
+
   .right-elements {
     display: flex;
     align-items: center;
@@ -71,7 +72,7 @@ import LogoIcon from './LogoIcon.astro'
     align-items: center;
     gap: 1rem;
   }
-  
+
   .mobile-menu-toggle {
     display: none;
     flex-direction: column;
@@ -81,7 +82,7 @@ import LogoIcon from './LogoIcon.astro'
     cursor: pointer;
     padding: 0.5rem;
   }
-  
+
   .mobile-menu-toggle span {
     display: block;
     width: 24px;
@@ -90,25 +91,25 @@ import LogoIcon from './LogoIcon.astro'
     transition: all 0.3s;
     border-radius: 2px;
   }
-  
+
   .mobile-menu-toggle.active span:nth-child(1) {
     transform: rotate(45deg) translate(6px, 6px);
   }
-  
+
   .mobile-menu-toggle.active span:nth-child(2) {
     opacity: 0;
   }
-  
+
   .mobile-menu-toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(6px, -6px);
   }
-  
+
   /* Dark mode styles */
   :root.dark header {
     background-color: var(--header-bg-dark, #1a1a1a);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
-  
+
   :root.dark .logo a {
     color: var(--logo-color-dark, #f5f5f5);
   }
@@ -116,13 +117,13 @@ import LogoIcon from './LogoIcon.astro'
   :root.dark .mobile-menu-toggle span {
     background-color: #f5f5f5;
   }
- 
+
  /* Mobile styles */
   @media (max-width: 768px) {
     .mobile-menu-toggle {
       display: flex;
     }
-    
+
     .right-elements {
       position: fixed;
       top: 60px;
@@ -138,38 +139,36 @@ import LogoIcon from './LogoIcon.astro'
       visibility: hidden;
       transition: all 0.3s ease;
     }
-    
+
     .right-elements.active {
       transform: translateY(0);
       opacity: 1;
       visibility: visible;
     }
-    
+
     :root.dark .right-elements {
       background: #1a1a1a;
       border-bottom: 1px solid #333;
     }
-    
+
     .header-actions {
       width: 100%;
       justify-content: center;
     }
-    
+
     .logo a {
       font-size: 1rem;
     }
   }
-  
+
   @media (max-width: 480px) {
     .header-content {
       padding: 0.75rem 0;
     }
-    
+
     .logo a {
       font-size: 0.9rem;
     }
   }
 </style>
-
-
 
